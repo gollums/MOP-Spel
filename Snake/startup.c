@@ -121,7 +121,7 @@ static OBJECT snakehead =
     set_object_speed
 };
 
-static OBJECT snakebody[510] =   
+static OBJECT snakebody[100] =   
 {
     &snakebody_geometry,
     0,0,
@@ -169,13 +169,15 @@ void draw_sprite(sprite* s, int x, int y){
     }
 }
 
-void draw_snake(POBJECT h){
+void draw_snake(POBJECT h, POBJECT *b){
     h->move(h);
-    POBJECT b = peek();
-    while (!isEmpty()){
-        b->move(b);
-        remove();
+    move_object(*b);
+    for(int i = 0; i < size()-1; i++){ 
+        move_object(*b);
+        *b++;
     }
+    move_object(*b);
+
 }
 
 static volatile int points;
@@ -221,16 +223,18 @@ void restart_game(POBJECT p){
         p->posy = 0;
         */
 }
-/*QUEUE is FIFO*/
+
 void main(int argc, char **argv){
     int game = 1, restart = 2;
     char key_stroke;
         
     POBJECT head = &snakehead, food = &food_obj;
-    POBJECT body[510];
+    POBJECT body[100];
+    for(int i = 0; i < 100 ; i++) body[i]="\0";
     
     init_app();
     graphic_init();
+    init_queue();
     
     while(game){
         #ifndef SIMULATOR
@@ -253,8 +257,7 @@ void main(int argc, char **argv){
             //graphic_draw_screen();
             /*KOD HÄR*/
             
-            draw_snake(head);
-            
+            draw_snake(head, body);
                         
             graphic_draw_screen();
 

@@ -1,7 +1,7 @@
 #import <stdbool.h>
 
 #define NULL "\0"
-#define MAX 512
+#define MAX 100
 
 /*returns true if itemCount == 0*/
 bool isEmpty();

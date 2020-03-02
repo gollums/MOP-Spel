@@ -7,6 +7,11 @@ int front = 0;
 int rear = -1;
 int itemCount = 0;
 
+void init_queue(){
+    for(int i = 0; i < MAX; i++)
+        objArray[i] = NULL;
+}
+
 /*returns the head*/
 POBJECT peek() {
    return objArray[front];
