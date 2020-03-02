@@ -20,6 +20,8 @@
  #define QUIT 0xA
  #define RESTART 0xD
  
+static volatile int points, snakeSize;
+
 __attribute__((naked)) __attribute__((section (".start_section")) )
 void startup ( void )
 {
@@ -110,17 +112,7 @@ GEOMETRY food_geometry = {
     }
 };
 
-static OBJECT snakehead =   
-{
-    &snakehead_geometry,
-    0,0,
-    1,1,
-    draw_object,
-    clear_object,
-    move_object,
-    set_object_speed
-};
-
+/*
 static OBJECT snakebody[100] =   
 {
     &snakebody_geometry,
@@ -131,7 +123,7 @@ static OBJECT snakebody[100] =
     move_object,
     set_object_speed
 };
-
+*/
 static OBJECT food_obj =   
 {
     &food_geometry,
@@ -169,18 +161,54 @@ void draw_sprite(sprite* s, int x, int y){
     }
 }
 
-void draw_snake(POBJECT h, POBJECT *b){
-    h->move(h);
-    move_object(*b);
-    for(int i = 0; i < size()-1; i++){ 
-        move_object(*b);
-        *b++;
-    }
-    move_object(*b);
 
+void draw_snake(POBJECT s){
+    for (int i = 0; i <= snakeSize - 1; i++){
+        s[i].move(&s[i]);
+    }
 }
 
-static volatile int points;
+void follow_leader(POBJECT s){
+    int next_x = s[0].posx;
+    int next_y = s[0].posy;
+    for(int i = snakeSize; i > 0; i--){
+        int current = s[i].posx;
+        s[i].posx = next_x;
+        next_x = current;
+        
+        current = s[i].posy;
+        s[i].posy = next_y;
+        next_y = current;
+    }
+}
+
+void turn(int dir, POBJECT s){
+    int next_x = 0, next_y = 0;
+     switch(dir){
+        case RIGHT:
+            if(s[0].dirx == 0){
+                s->set_speed(s,4,0);
+            }
+            break;
+        case LEFT:
+            if(s[0].dirx == 0){
+                s->set_speed(s,-4,0);
+            }
+            break;
+        case UP:
+            if(s[0].diry == 0){
+                s->set_speed(s,0,-4);
+            }
+            break;
+        case DOWN:
+            if(s[0].diry == 0){
+                s->set_speed(s,0,4);
+            }
+            break;
+    }
+    follow_leader(s);
+    /*if hit food*/
+}
 
 void init_app(void){/**/
     #ifdef USBDM
@@ -198,43 +226,46 @@ void init_app(void){/**/
     *GPIO_D_PUPDR = 0;
     *GPIO_D_PUPDR |= 0xAA000000;
     *GPIO_D_OTYPER = 0;
-    
-    points = 0;
 }
 
-void init_snake(POBJECT h, POBJECT *b, OBJECT *s){
-    h->posx = 16;
-    h->posy = 1;
-    for (int i = 0; i < 3; i++){
-        *b = &(*s);
-        (*b)->posx = (i+1)*4;
-        (*b)->posy = 1;
-        insert(*b);
-        *b++;
-        *s++;
+void init_snake(POBJECT s){
+    int j = 0;
+    for (int i = 3; i >= 0; i--, j++){
+        if(i == 0){ 
+            s[i].geo = &snakehead_geometry;
+        } else{ 
+            s[i].geo = &snakebody_geometry;
+        }
+        s[i].posx = (j+1) * 4;
+        s[i].posy = 1;
+        s[i].dirx = 0;
+        s[i].diry = 0;
+        s[i].move = move_object;
+        s[i].clear = clear_object;
+        s[i].draw = draw_object;
+        s[i].set_speed = set_object_speed;
+        snakeSize++;
     }
 }
 
-void restart_game(POBJECT p){
+void restart_game(){
         clear_backbuffer();
         graphic_draw_screen();
-        /*p->set_speed(p,0,0);§
-        p->posx = 0;
-        p->posy = 0;
-        */
+        points = 0;
+        snakeSize = 0;
 }
 
 void main(int argc, char **argv){
     int game = 1, restart = 2;
     char key_stroke;
-        
-    POBJECT head = &snakehead, food = &food_obj;
-    POBJECT body[100];
-    for(int i = 0; i < 100 ; i++) body[i]="\0";
     
+    POBJECT food = &food_obj;
+    OBJECT snake[200];
+    
+        
     init_app();
     graphic_init();
-    init_queue();
+    ascii_init();
     
     while(game){
         #ifndef SIMULATOR
@@ -244,12 +275,15 @@ void main(int argc, char **argv){
         //load_sprite(&s , image_bits, image_width, image_height);
         //draw_sprite(&s, 20, 20);
         
-        //while(keyb() != 5){}
+        //while(keyb() != 5){
+            //char[] *s = "You have :" 
+            //ascii_write_char(*s++)
+        //}
         
         if(restart == 2){
-            init_snake(head, body, snakebody);
-            restart_game(head);
+            restart_game();
             restart = 1;
+            init_snake(snake);
         }
 
         while(restart == 1){
@@ -257,52 +291,22 @@ void main(int argc, char **argv){
             //graphic_draw_screen();
             /*KOD HÄR*/
             
-            draw_snake(head, body);
+            draw_snake(snake);
                         
             graphic_draw_screen();
 
             //delay_milli(40);
             key_stroke = keyb();
             switch(key_stroke){
-                case RIGHT: turn(RIGHT, head, body); break; /*dirx = +, diry = 0*/
-                case LEFT: turn(LEFT, head, body); break; /*dirx = -, diry = 0*/
-                case UP: turn(UP, head, body); break; /*dirx = 0, diry = -*/
-                case DOWN: turn(DOWN, head, body); break; /*dirx = 0, diry = +*/
+                case RIGHT: turn(RIGHT, snake); break; /*dirx = +, diry = 0*/
+                case LEFT: turn(LEFT, snake); break; /*dirx = -, diry = 0*/
+                case UP: turn(UP, snake); break; /*dirx = 0, diry = -*/
+                case DOWN: turn(DOWN, snake); break; /*dirx = 0, diry = +*/
                 case QUIT: game = 0; restart = 0; break;
                 case RESTART: restart = 2; break;
             }
-        }
-    }
-}
 
-void turn(int dir, POBJECT h ,POBJECT *b){
-    switch(dir){
-        case RIGHT:
-            if(h->dirx == 0){
-                h->set_speed(h,4,0);
-                /*for(int i = 0; i < size()-1; i++){
-                    (*b)->set_speed(*b,4,0);
-                    *b++;
-                }*/
-            }
-            break;
-        case LEFT:
-            if(h->dirx == 0){
-                h->set_speed(h,-4,0);
-                
-            }
-            break;
-        case UP:
-            if(h->diry == 0){
-                h->set_speed(h,0,-4);
-            }
-            break;
-        case DOWN:
-            if(h->diry == 0){
-                h->set_speed(h,0,4);
-                
-            }
-            break;
+        }
     }
 }
 
