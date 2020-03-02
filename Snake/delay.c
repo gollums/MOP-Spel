@@ -16,11 +16,17 @@ void delay_250ns ( void){
 }
 
 void delay_500ns(void){
+    #ifdef SIMULATOR
+        return;
+    #endif
     delay_250ns();
     delay_250ns();
 }
 
 void delay_mikro(unsigned int us){
+    #ifdef SIMULATOR
+        return;
+    #endif
     while(us--){
         delay_250ns();
         delay_250ns();
@@ -30,7 +36,7 @@ void delay_mikro(unsigned int us){
 }
 
 void delay_milli(unsigned int ms){
-    #ifdef  SIMULATOR
+    #ifdef SIMULATOR
         ms = ms / 1000;
         ms++;
     #endif

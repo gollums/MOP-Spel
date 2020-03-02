@@ -72,7 +72,7 @@ void graphic_wait_ready(void){
         delay_500ns();
         graphic_ctrl_bit_clear(B_E);
         delay_500ns();
-        if ((*GPIO_D_IDR_HIGH & LCD_BUSY) == 0) break; //Fastnar här...
+        //if ((*GPIO_D_IDR_HIGH & LCD_BUSY) == 0) break; //Fastnar här...
     }
     //graphic_ctrl_bit_set(B_E); // Ej på föreläsning
     *GPIO_E_MODER = 0x55555555;
@@ -157,7 +157,46 @@ void graphic_clear_screen(void){
     }
 }
 
-void pixel(unsigned int x, unsigned int y, unsigned int set){
+void clear_backbuffer(){
+    int i;
+    for (i = 0; i < 1024; i++)
+        backBuffer[i] = 0;
+}
+
+void pixel(unsigned x, unsigned y){
+    uint8_t mask;
+    int index = 0;
+    if ((x >128)||(x <1)||(y >64)||(y <1)) return;
+
+    mask = 1 << ((y-1)%8);
+    
+    if(x > 64){
+        x -= 65;
+        index = 512;
+    }
+    
+    index += x + ((y-1)/8)*64;
+    
+    backBuffer[index] |= mask;
+}
+
+void graphic_draw_screen(void){
+    uint8_t i,  j, controller, c;
+    unsigned int k = 0;
+    
+    for (c = 0; c < 2; c++){
+        controller = (c==0) ? B_CS1 : B_CS2;
+        for (j = 0; j < 8; j++){
+            graphic_write_command(LCD_SET_PAGE | j, controller);
+            graphic_write_command(LCD_SET_ADD | 0, controller);
+            for(i = 0; i <= 63; i++, k++){
+                graphic_write_data(backBuffer[k],controller);  
+            }
+        }
+    }
+}
+
+/*void pixel(unsigned int x, unsigned int y, unsigned int set){
     unsigned int index = 0;
     uint8_t mask, controller;
     
@@ -198,4 +237,4 @@ void pixel(unsigned int x, unsigned int y, unsigned int set){
         mask &= temp;
     }
     graphic_write_data(mask,controller);  
-}
+}*/
