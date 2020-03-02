@@ -8,7 +8,7 @@ int rear = -1;
 int itemCount = 0;
 
 /*returns the head*/
-int peek() {
+POBJECT peek() {
    return objArray[front];
 }
 
@@ -49,10 +49,6 @@ int remove() {
 	
    itemCount--;
    return (int)data;  
-}
-
-POBJECT queue(){
-    return objArray;
 }
 
 /*

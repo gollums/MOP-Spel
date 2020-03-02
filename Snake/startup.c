@@ -169,11 +169,12 @@ void draw_sprite(sprite* s, int x, int y){
     }
 }
 
-void draw_snake(POBJECT h, POBJECT *b){
+void draw_snake(POBJECT h){
     h->move(h);
-    for(int i = 0; i < size()-1; i++){ 
-        move_object(*b);
-        *b++;
+    POBJECT b = peek();
+    while (!isEmpty()){
+        b->move(b);
+        remove();
     }
 }
 
@@ -202,12 +203,10 @@ void init_app(void){/**/
 void init_snake(POBJECT h, POBJECT *b, OBJECT *s){
     h->posx = 16;
     h->posy = 1;
-    h->move(h);
     for (int i = 0; i < 3; i++){
         *b = &(*s);
         (*b)->posx = (i+1)*4;
         (*b)->posy = 1;
-        move_object(*b);
         insert(*b);
         *b++;
         *s++;
@@ -222,7 +221,7 @@ void restart_game(POBJECT p){
         p->posy = 0;
         */
 }
-
+/*QUEUE is FIFO*/
 void main(int argc, char **argv){
     int game = 1, restart = 2;
     char key_stroke;
@@ -241,7 +240,7 @@ void main(int argc, char **argv){
         //load_sprite(&s , image_bits, image_width, image_height);
         //draw_sprite(&s, 20, 20);
         
-        while(keyb() != 5){}
+        //while(keyb() != 5){}
         
         if(restart == 2){
             init_snake(head, body, snakebody);
@@ -254,7 +253,8 @@ void main(int argc, char **argv){
             //graphic_draw_screen();
             /*KOD HÄR*/
             
-            draw_snake(head, body);
+            draw_snake(head);
+            
                         
             graphic_draw_screen();
 

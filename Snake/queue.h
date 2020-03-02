@@ -3,9 +3,6 @@
 #define NULL "\0"
 #define MAX 512
 
-/*returns the head*/
-int peek();
-
 /*returns true if itemCount == 0*/
 bool isEmpty();
 
