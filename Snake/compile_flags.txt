@@ -1,2 +1,8 @@
--IZ:\mop\MOP-Spel\Snake
--DUSBDM
+-I/Applications/codelite.app/Contents/SharedSupport/tools/gcc-arm/arm-none-eabi/include/c++/9.2.1
+-I/Applications/codelite.app/Contents/SharedSupport/tools/gcc-arm/arm-none-eabi/include/c++/9.2.1/arm-none-eabi
+-I/Applications/codelite.app/Contents/SharedSupport/tools/gcc-arm/arm-none-eabi/include/c++/9.2.1/backward
+-I/Applications/codelite.app/Contents/SharedSupport/tools/gcc-arm/lib/gcc/arm-none-eabi/9.2.1/include
+-I/Applications/codelite.app/Contents/SharedSupport/tools/gcc-arm/lib/gcc/arm-none-eabi/9.2.1/include-fixed
+-I/Applications/codelite.app/Contents/SharedSupport/tools/gcc-arm/arm-none-eabi/include
+-I/Users/gollum/Documents/moplaborationer/MOP-Spel/Snake
+-DSIMULATOR

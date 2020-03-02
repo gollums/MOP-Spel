@@ -78,7 +78,7 @@ void move_object(POBJECT o){
     draw_object(o);
 }
 
-GEOMETRY snakehead_geometry = {
+GEOMETRY snakehead_geometry_LEFT = {
     10,
     4,4,
     {
@@ -86,6 +86,40 @@ GEOMETRY snakehead_geometry = {
               {1,1},{1,2},
         {2,0},            {2,3},
         {3,0},{3,1},{3,2},{3,3}
+    }
+};
+
+GEOMETRY snakehead_geometry_RIGHT = {
+    10,
+    4,4,
+    {
+        {0,0},{0,1},{0,2},{0,3},
+        {1,0},            {1,3},
+              {2,1},{2,2},
+              {3,1},{3,2}
+    }
+};
+
+GEOMETRY snakehead_geometry_DOWN = {
+    10,
+    4,4,
+    {
+        {0,0},{0,1},
+        {1,0},      {1,2},{1,3},
+        {2,0},      {2,2},{2,3},
+        {3,0},{3,1}
+    }
+};
+
+GEOMETRY snakehead_geometry_UP = {
+    10,
+    4,4,
+    {
+                    {0,2},{0,3},
+        {1,0},{1,1},      {1,3},
+        {2,0},{2,1},      {2,3},
+                    {3,2},{3,3}
+ 
     }
 };
 
@@ -163,6 +197,8 @@ void draw_sprite(sprite* s, int x, int y){
 
 
 void draw_snake(POBJECT s){
+    if (s[0].dirx != 0 || s[0].diry != 0)
+            follow_leader(s);
     for (int i = 0; i <= snakeSize - 1; i++){
         s[i].move(&s[i]);
     }
@@ -171,7 +207,7 @@ void draw_snake(POBJECT s){
 void follow_leader(POBJECT s){
     int next_x = s[0].posx;
     int next_y = s[0].posy;
-    for(int i = snakeSize; i > 0; i--){
+    for(int i = 0; i < snakeSize; i++){
         int current = s[i].posx;
         s[i].posx = next_x;
         next_x = current;
@@ -188,25 +224,29 @@ void turn(int dir, POBJECT s){
         case RIGHT:
             if(s[0].dirx == 0){
                 s->set_speed(s,4,0);
+                s[0].geo = &snakehead_geometry_RIGHT;
             }
             break;
         case LEFT:
             if(s[0].dirx == 0){
                 s->set_speed(s,-4,0);
+                s[0].geo = &snakehead_geometry_LEFT;
             }
             break;
         case UP:
             if(s[0].diry == 0){
                 s->set_speed(s,0,-4);
+                s[0].geo = &snakehead_geometry_UP;
             }
             break;
         case DOWN:
             if(s[0].diry == 0){
                 s->set_speed(s,0,4);
+                s[0].geo = &snakehead_geometry_DOWN;
             }
             break;
     }
-    follow_leader(s);
+    
     /*if hit food*/
 }
 
@@ -232,7 +272,7 @@ void init_snake(POBJECT s){
     int j = 0;
     for (int i = 3; i >= 0; i--, j++){
         if(i == 0){ 
-            s[i].geo = &snakehead_geometry;
+            s[i].geo = &snakehead_geometry_RIGHT;
         } else{ 
             s[i].geo = &snakebody_geometry;
         }
@@ -288,7 +328,6 @@ void main(int argc, char **argv){
 
         while(restart == 1){
             clear_backbuffer();
-            //graphic_draw_screen();
             /*KOD HÄR*/
             
             draw_snake(snake);

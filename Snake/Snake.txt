@@ -1,1 +1,1 @@
-./Debug/asciidisplay.c.o ./Debug/graphicdisplay.c.o ./Debug/startup.c.o ./Debug/delay.c.o ./Debug/queue.c.o ./Debug/keyb.c.o   
+./Debug/asciidisplay.c.o ./Debug/startup.c.o ./Debug/keyb.c.o ./Debug/delay.c.o ./Debug/graphicdisplay.c.o ./Debug/queue.c.o
