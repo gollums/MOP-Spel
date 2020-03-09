@@ -234,15 +234,25 @@ void turn(int dir, POBJECT s){
     }
 }
 
-void inc_snake(POBJECT snake){
-    // TODO!!!
+void inc_snake(POBJECT s){
+    s[snakeSize] = s[snakeSize-1];
+    /*s[snakeSize-1].geo = &snakebody_geometry;
+    s[snakeSize-1].dirx = s[snakeSize-2].dirx;
+    s[snakeSize-1].diry = s[snakeSize-2].diry;
+    s[snakeSize-1].posx = s[snakeSize-2].posx;
+    s[snakeSize-1].posy = s[snakeSize-2].posy;
+    s[snakeSize-1].move = move_object;
+    s[snakeSize-1].clear = clear_object;
+    s[snakeSize-1].draw = draw_object;
+    s[snakeSize-1].set_speed = set_object_speed;*/
+    snakeSize++;
 }
 
 void snake_eat_food(POBJECT food, POBJECT snake){
     if(snake[0].posx == food->posx && snake[0].posy == food->posy){
         points++;
         new_pos_food(food, snake);
-        inc_snake();
+        inc_snake(snake);
     }
 }
 
