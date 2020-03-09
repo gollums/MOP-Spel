@@ -237,7 +237,11 @@ void turn(int dir, POBJECT s){
 void snake_hit_self(POBJECT s){
     OBJECT head = s[0];
     for(int i = 1; i < snakeSize - 1; i++){
-        if (head.posx == s[i].posx && head.posy == s[i].posy) dead = 1;
+        s++;
+        if (head.posx == s->posx && head.posy == s->posy) {
+            dead = 1;
+            break;
+        }
     }
 }
 
@@ -346,7 +350,7 @@ void init_app(void){/**/
 
 void init_snake(POBJECT s){
     int j = 0;
-    for (int i = 3; i >= 0; i--, j++){
+    for (int i = 8; i >= 0; i--, j++){
         if(i == 0){ 
             s[i].geo = &snakehead_geometry_RIGHT;
         } else{ 
@@ -424,6 +428,7 @@ void main(int argc, char **argv){
             
             if (dead){
                 restart = 2;
+                break;
             }
             clear_backbuffer();
             
