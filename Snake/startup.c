@@ -22,7 +22,7 @@
  #define QUIT 0xA
  #define RESTART 0xD
  
-static volatile int points, snakeSize, dead;
+static volatile int points, snakeSize, dead, gameSpeed;
 int seed;
 
 __attribute__((naked)) __attribute__((section (".start_section")) )
@@ -252,6 +252,13 @@ void snake_eat_food(POBJECT food, POBJECT snake){
         new_pos_food(food, snake);
         inc_snake(snake);
     }
+    increase_gamespeed();
+}
+
+void increase_gamespeed(){
+    if(points % 5 == 0) {
+        if (gameSpeed > 50) gameSpeed = gameSpeed - 4;
+    }
 }
 
 void new_pos_food(POBJECT f, POBJECT s){
@@ -372,6 +379,7 @@ void restart_game(){
         snakeSize = 0;
         seed = 123456789;
         dead = 0;
+        gameSpeed = 150;
 }
 
 void start(){
@@ -424,7 +432,7 @@ void main(int argc, char **argv){
 
             
             graphic_draw_screen();
-            delay_milli(100);
+            delay_milli(gameSpeed);
             key_stroke = keyb();
             switch(key_stroke){
                 case RIGHT: turn(RIGHT, snake); break; //dirx = +, diry = 0
