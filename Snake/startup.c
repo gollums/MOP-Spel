@@ -317,9 +317,10 @@ static int print_score(void)
 
 static void print_score_all(void) {
     ascii_gotoxy(1, 1);
-    ascii_print("You have: ");
+    ascii_print("You have ");
 
     if (print_score()) {
+        ascii_print(" points");
         if(dead){
             ascii_gotoxy(1, 2);
             ascii_print("GAME OVER");
@@ -350,7 +351,7 @@ void init_app(void){/**/
 
 void init_snake(POBJECT s){
     int j = 0;
-    for (int i = 8; i >= 0; i--, j++){
+    for (int i = 3; i >= 0; i--, j++){
         if(i == 0){ 
             s[i].geo = &snakehead_geometry_RIGHT;
         } else{ 
