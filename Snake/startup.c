@@ -140,8 +140,8 @@ GEOMETRY food_geometry = {
     4,4,
     {
         {0,0},{0,1},{0,2},{0,3},
-        {1,0},           {1,3},
-        {2,0},           {2,3},
+        {1,0},            {1,3},
+        {2,0},            {2,3},
         {3,0},{3,1},{3,2},{3,3}
     }
 };
@@ -195,13 +195,19 @@ void draw_sprite(sprite* s, int x, int y){
     }
 }
 
-
 void draw_snake(POBJECT s){
     if (s[0].dirx != 0 || s[0].diry != 0)
             follow_leader(s);
     for (int i = 0; i <= snakeSize - 1; i++){
         s[i].move(&s[i]);
     }
+}
+
+void draw_food(POBJECT f){
+    int current_x = f->posx; 
+    int current_y = f->posy;
+    
+    f->move(&food_obj);
 }
 
 void follow_leader(POBJECT s){
@@ -288,6 +294,16 @@ void init_snake(POBJECT s){
     }
 }
 
+void init_food(POBJECT f){
+    f->geo = &food_geometry;
+    f->posx = 4; 
+    f->posy = 8;
+    f->draw = draw_object; 
+    f->clear = clear_object;
+    f->move = move_object;
+    f->set_speed = set_object_speed;
+}
+
 void restart_game(){
         clear_backbuffer();
         graphic_draw_screen();
@@ -324,6 +340,7 @@ void main(int argc, char **argv){
             restart_game();
             restart = 1;
             init_snake(snake);
+            init_food(food);
         }
 
         while(restart == 1){
@@ -331,6 +348,7 @@ void main(int argc, char **argv){
             /*KOD HÄR*/
             
             draw_snake(snake);
+            draw_food(food);
                         
             graphic_draw_screen();
 

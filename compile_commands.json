@@ -1,53 +1,53 @@
 [{
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\asciidisplay.c",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\asciidisplay.c -o Z:\\mop\\MOP-Spel\\Snake\\asciidisplay.c.o  -DUSBDM -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\startup.c",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\startup.c -o C:\\MOP\\MOP-Spel\\Snake\\startup.c.o  -DSIMULATOR -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\asciidisplay.h",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\asciidisplay.h -o Z:\\mop\\MOP-Spel\\Snake\\asciidisplay.h.o  -DUSBDM -I. -I.  -g  -O0  -W"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\asciidisplay.c",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\asciidisplay.c -o C:\\MOP\\MOP-Spel\\Snake\\asciidisplay.c.o  -DSIMULATOR -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\defines.h",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\defines.h -o Z:\\mop\\MOP-Spel\\Snake\\defines.h.o  -DUSBDM -I. -I.  -g  -O0  -W"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\delay.c",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\delay.c -o C:\\MOP\\MOP-Spel\\Snake\\delay.c.o  -DSIMULATOR -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\delay.h",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\delay.h -o Z:\\mop\\MOP-Spel\\Snake\\delay.h.o  -DUSBDM -I. -I.  -g  -O0  -W"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\delay.h",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\delay.h -o C:\\MOP\\MOP-Spel\\Snake\\delay.h.o  -DSIMULATOR -I. -I.  -g  -O0  -W"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\graphicdisplay.c",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\graphicdisplay.c -o Z:\\mop\\MOP-Spel\\Snake\\graphicdisplay.c.o  -DUSBDM -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\graphicdisplay.c",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\graphicdisplay.c -o C:\\MOP\\MOP-Spel\\Snake\\graphicdisplay.c.o  -DSIMULATOR -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\startup.c",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\startup.c -o Z:\\mop\\MOP-Spel\\Snake\\startup.c.o  -DUSBDM -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\graphicdisplay.h",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\graphicdisplay.h -o C:\\MOP\\MOP-Spel\\Snake\\graphicdisplay.h.o  -DSIMULATOR -I. -I.  -g  -O0  -W"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\delay.c",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\delay.c -o Z:\\mop\\MOP-Spel\\Snake\\delay.c.o  -DUSBDM -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\queue.h",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\queue.h -o C:\\MOP\\MOP-Spel\\Snake\\queue.h.o  -DSIMULATOR -I. -I.  -g  -O0  -W"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\queue.c",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\queue.c -o Z:\\mop\\MOP-Spel\\Snake\\queue.c.o  -DUSBDM -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\asciidisplay.h",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\asciidisplay.h -o C:\\MOP\\MOP-Spel\\Snake\\asciidisplay.h.o  -DSIMULATOR -I. -I.  -g  -O0  -W"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\queue.h",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\queue.h -o Z:\\mop\\MOP-Spel\\Snake\\queue.h.o  -DUSBDM -I. -I.  -g  -O0  -W"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\defines.h",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\defines.h -o C:\\MOP\\MOP-Spel\\Snake\\defines.h.o  -DSIMULATOR -I. -I.  -g  -O0  -W"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\graphicdisplay.h",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\graphicdisplay.h -o Z:\\mop\\MOP-Spel\\Snake\\graphicdisplay.h.o  -DUSBDM -I. -I.  -g  -O0  -W"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\keyb.h",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\keyb.h -o C:\\MOP\\MOP-Spel\\Snake\\keyb.h.o  -DSIMULATOR -I. -I.  -g  -O0  -W"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\geometricobject.h",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\geometricobject.h -o Z:\\mop\\MOP-Spel\\Snake\\geometricobject.h.o  -DUSBDM -I. -I.  -g  -O0  -W"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\keyb.c",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\keyb.c -o C:\\MOP\\MOP-Spel\\Snake\\keyb.c.o  -DSIMULATOR -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\keyb.h",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\keyb.h -o Z:\\mop\\MOP-Spel\\Snake\\keyb.h.o  -DUSBDM -I. -I.  -g  -O0  -W"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\queue.c",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\queue.c -o C:\\MOP\\MOP-Spel\\Snake\\queue.c.o  -DSIMULATOR -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
  }, {
-  "file": "Z:\\mop\\MOP-Spel\\Snake\\keyb.c",
-  "directory": "Z:\\mop\\MOP-Spel\\Snake",
-  "command": "clang  -c Z:\\mop\\MOP-Spel\\Snake\\keyb.c -o Z:\\mop\\MOP-Spel\\Snake\\keyb.c.o  -DUSBDM -I. -I.  -g  -O0  -w  -mthumb -march=armv6-m  -mfloat-abi=soft  -std=c99"
+  "file": "C:\\MOP\\MOP-Spel\\Snake\\geometricobject.h",
+  "directory": "C:\\MOP\\MOP-Spel\\Snake",
+  "command": "clang  -c C:\\MOP\\MOP-Spel\\Snake\\geometricobject.h -o C:\\MOP\\MOP-Spel\\Snake\\geometricobject.h.o  -DSIMULATOR -I. -I.  -g  -O0  -W"
  }]
