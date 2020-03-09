@@ -1,2 +1,2 @@
--IC:\MOP\MOP-Spel\Snake
--DSIMULATOR
+-IZ:\mop\MOP-Spel(1)\MOP-Spel\Snake
+-DUSBDM

@@ -1,5 +1,6 @@
 #include <defines.h>
 #include <asciidisplay.h>
+#include "delay.h"
 
 void ascii_init(void){ /**/
     /*function set*/
