@@ -234,17 +234,15 @@ void turn(int dir, POBJECT s){
     }
 }
 
+void snake_hit_self(POBJECT s){
+    OBJECT head = s[0];
+    for(int i = 1; i < snakeSize - 1; i++){
+        if (head.posx == s[i].posx && head.posy == s[i].posy) dead = 1;
+    }
+}
+
 void inc_snake(POBJECT s){
     s[snakeSize] = s[snakeSize-1];
-    /*s[snakeSize-1].geo = &snakebody_geometry;
-    s[snakeSize-1].dirx = s[snakeSize-2].dirx;
-    s[snakeSize-1].diry = s[snakeSize-2].diry;
-    s[snakeSize-1].posx = s[snakeSize-2].posx;
-    s[snakeSize-1].posy = s[snakeSize-2].posy;
-    s[snakeSize-1].move = move_object;
-    s[snakeSize-1].clear = clear_object;
-    s[snakeSize-1].draw = draw_object;
-    s[snakeSize-1].set_speed = set_object_speed;*/
     snakeSize++;
 }
 
@@ -259,7 +257,7 @@ void snake_eat_food(POBJECT food, POBJECT snake){
 void new_pos_food(POBJECT f, POBJECT s){
     int rand_x = randint(128), rand_y = randint(64);
     
-    for(int i = 0; i < snakeSize; i++){
+    for(int i = 0; i < snakeSize - 1; i++){
         if (s[i].posx != rand_x && s[i].posy != rand_y){
 
             while(1){
@@ -377,15 +375,15 @@ void restart_game(){
 }
 
 void start(){
-     ascii_gotoxy(1,2);
-            char *s;
-            char e[] = "Press 5 to start";
-            s = e;
-            while(*s)
-                ascii_write_char(*s++);
+    ascii_gotoxy(1,2);
+    char *s;
+    char e[] = "Press 5 to start";
+    s = e;
+    while(*s)
+        ascii_write_char(*s++);
         
     while(keyb() != 5){}
-           
+    clear_display();
 }
 
 void main(int argc, char **argv){
@@ -438,6 +436,7 @@ void main(int argc, char **argv){
             }
             
             snake_eat_food(food, snake);
+            snake_hit_self(snake);
         }
     }
 }
