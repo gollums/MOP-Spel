@@ -372,14 +372,15 @@ void init_food(POBJECT f){
     f->set_speed = set_object_speed;
 }
 
-void restart_game(){
-        clear_backbuffer();
-        graphic_draw_screen();
-        points = 0;
-        snakeSize = 0;
-        seed = 123456789;
-        dead = 0;
-        gameSpeed = 150;
+int restart_game(){
+    clear_backbuffer();
+    graphic_draw_screen();
+    points = 0;
+    snakeSize = 0;
+    seed = 123456789;
+    dead = 0;
+    gameSpeed = 150;
+    return 1;
 }
 
 void start(){
@@ -410,8 +411,7 @@ void main(int argc, char **argv){
         #endif
 
         if(restart == 2){
-            restart_game();
-            restart = 1;
+            restart = restart_game();
             init_snake(snake);
             init_food(food);
             new_pos_food(food, snake);
