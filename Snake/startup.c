@@ -3,7 +3,7 @@
  *
  */
  #include <stdlib.h>
- #include <time.h>
+ #include <stdio.h>
 
  #include "defines.h"
  #include "delay.h"
@@ -22,7 +22,8 @@
  #define QUIT 0xA
  #define RESTART 0xD
  
-static volatile int points, snakeSize;
+static volatile int points, snakeSize, dead;
+int seed;
 
 __attribute__((naked)) __attribute__((section (".start_section")) )
 void startup ( void )
@@ -56,26 +57,18 @@ void move_object(POBJECT o){
     o->posx = o->posx + o->dirx;
     o->posy = o->posy + o->diry;
     
-    /*Position static if direction makes ball go out of bounds*/
-    //Bounce left wall
-    if((o->posx+o->dirx)<1){
-        o->dirx *= -1;
-        o->posx = 1;
+    /*Dead if hit wall*/
+    if((o->posx)<0){
+        dead = 1;
     }
-    //Bounce right wall
-    if((o->posx+o->dirx)>128){
-        o->dirx *= -1;
-        o->posx=127;
+    if((o->posx)>128){
+        dead = 1;
     }
-    //bounce upper wall
-    if((o->posy+o->diry)<1){
-        o->diry *= -1;
-        o->posy = 1;
+    if((o->posy)<0){
+        dead = 1;
     }
-    //bounce lower wall
-    if((o->posy+o->diry)>64){
-        o->diry *= -1;
-        o->posy = 63;
+    if((o->posy)>64){
+        dead = 1;
     }
     draw_object(o);
 }
@@ -148,18 +141,6 @@ GEOMETRY food_geometry = {
     }
 };
 
-/*
-static OBJECT snakebody[100] =   
-{
-    &snakebody_geometry,
-    0,0,
-    1,1,
-    draw_object,
-    clear_object,
-    move_object,
-    set_object_speed
-};
-*/
 static OBJECT food_obj =   
 {
     &food_geometry,
@@ -206,7 +187,6 @@ void draw_snake(POBJECT s){
 }
 
 void draw_food(POBJECT f){
-    
     f->move(&food_obj);
 }
 
@@ -254,33 +234,82 @@ void turn(int dir, POBJECT s){
     }
 }
 
-void new_pos_food(POBJECT f, POBJECT s){
-    int rand_x = randint(126), rand_y = randint(62);
-    
-    if (s[0].posx != rand_x && s[0].posy != rand_y){
-        
-        
-        while(1){
-            if (rand_x % 4 != 0) rand_x++;
-            if (rand_y % 4 != 0) rand_y++;
-            
-            if(rand_x % 4 == 0 && rand_y % 4 == 0) break;
-        }
-        f->posx = rand_x+1;
-        f->posy = rand_y+1;
+void inc_snake(POBJECT snake){
+    // TODO!!!
+}
+
+void snake_eat_food(POBJECT food, POBJECT snake){
+    if(snake[0].posx == food->posx && snake[0].posy == food->posy){
+        points++;
+        new_pos_food(food, snake);
+        inc_snake();
     }
+}
+
+void new_pos_food(POBJECT f, POBJECT s){
+    int rand_x = randint(128), rand_y = randint(64);
     
+    for(int i = 0; i < snakeSize; i++){
+        if (s[i].posx != rand_x && s[i].posy != rand_y){
+
+            while(1){
+                if (rand_x % 4 != 0) rand_x++;
+                if (rand_y % 4 != 0) rand_y++;
+                
+                if(rand_x % 4 == 0 && rand_y % 4 == 0) break;
+            }
+            f->posx = rand_x+1;
+            f->posy = rand_y+1;
+        }
+    }
 }
 
 int randint(int n) {
-    static int next = 3251 ; // Anything you like here - but not
-                           // 0000, 0100, 2500, 3792, 7600,
-                           // 0540, 2916, 5030 or 3009.
-    next = ((next * next) / 100 ) % n ;
-    return next ;
-    
+    int m = 2^31, a = 1103515245, c = 12345;
+    seed = (a * seed + c) % m;
+    return seed % n;
 }
 
+static int print_score(void)
+{
+    uint8_t ascii;
+    int local_score = points;
+
+    if (local_score > 99)
+        local_score = 99;
+
+    /* tiotalen */
+    if (local_score >= 10) {
+        ascii = '0';
+
+        while (local_score >= 10) {
+            ascii++;
+            local_score = local_score - 10;
+        }
+
+        ascii_write_char(ascii);
+    }
+
+    /* ettalet */
+    ascii_write_char(local_score + '0');
+    if (local_score == 0) return 1;
+    else return 0;
+}
+
+static void print_score_all(void) {
+    ascii_gotoxy(1, 1);
+    ascii_print("You have: ");
+
+    if (print_score()) {
+        if(dead){
+            ascii_gotoxy(1, 2);
+            ascii_print("GAME OVER");
+        }else{
+            ascii_gotoxy(1, 2);
+            ascii_print("");
+        }
+    }
+}
 
 void init_app(void){/**/
     #ifdef USBDM
@@ -308,7 +337,7 @@ void init_snake(POBJECT s){
         } else{ 
             s[i].geo = &snakebody_geometry;
         }
-        s[i].posx = (j+1) * 4;
+        s[i].posx = ((j+1) * 4) + 1;
         s[i].posy = 1;
         s[i].dirx = 0;
         s[i].diry = 0;
@@ -333,16 +362,27 @@ void restart_game(){
         graphic_draw_screen();
         points = 0;
         snakeSize = 0;
+        seed = 123456789;
+        dead = 0;
+}
+
+void start(){
+     ascii_gotoxy(1,2);
+            char *s;
+            char e[] = "Press 5 to start";
+            s = e;
+            while(*s)
+                ascii_write_char(*s++);
+        
+    while(keyb() != 5){}
+           
 }
 
 void main(int argc, char **argv){
     int game = 1, restart = 2;
     char key_stroke;
-    char *s;
-    
     POBJECT food = &food_obj;
-    OBJECT snake[200];
-    
+    OBJECT snake[100];
         
     init_app();
     graphic_init();
@@ -352,63 +392,42 @@ void main(int argc, char **argv){
         #ifndef SIMULATOR
             graphic_clear_screen(); //JAG FÅR VARA MED
         #endif
-        
-        //load_sprite(&s , image_bits, image_width, image_height);
-        //draw_sprite(&s, 20, 20);
-        
-        //while(keyb() != 5){
-            //char[] *s = "You have :" 
-            //ascii_write_char(*s++)
-        //}
-        
+
         if(restart == 2){
             restart_game();
             restart = 1;
             init_snake(snake);
             init_food(food);
+            new_pos_food(food, snake);
         }
         
-        int t = 0;
+        start();
+        
         while(restart == 1){
-            char point[] = "You have: %d", points;
-            ascii_gotoxy(1,1);
+            print_score_all();
             
-            s = point;
-            while(*s){
-                ascii_write_char(*s++);
+            if (dead){
+                restart = 2;
             }
-            
             clear_backbuffer();
-            /*KOD HÄR*/
             
             draw_snake(snake);
-            if (t > 4){
-                draw_food(food);
-            }
-            t++;
+            draw_food(food);
+
             
             graphic_draw_screen();
             delay_milli(100);
-
-            //delay_milli(40);
             key_stroke = keyb();
             switch(key_stroke){
-                case RIGHT: turn(RIGHT, snake); break; /*dirx = +, diry = 0*/
-                case LEFT: turn(LEFT, snake); break; /*dirx = -, diry = 0*/
-                case UP: turn(UP, snake); break; /*dirx = 0, diry = -*/
-                case DOWN: turn(DOWN, snake); break; /*dirx = 0, diry = +*/
+                case RIGHT: turn(RIGHT, snake); break; //dirx = +, diry = 0
+                case LEFT: turn(LEFT, snake); break; //dirx = -, diry = 0
+                case UP: turn(UP, snake); break; //dirx = 0, diry = -
+                case DOWN: turn(DOWN, snake); break; //dirx = 0, diry = +
                 case QUIT: game = 0; restart = 0; break;
                 case RESTART: restart = 2; break;
             }
             
-            /*snake eats food*/
-            if(snake[0].posx == food->posx && snake[0].posy == food->posy){
-                points++;
-                new_pos_food(food, snake);
-                //inc_snake();
-            }
-                
-
+            snake_eat_food(food, snake);
         }
     }
 }

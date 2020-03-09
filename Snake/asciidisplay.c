@@ -117,3 +117,12 @@ void ascii_gotoxy(int x, int y){ /**/
     ascii_write_cmd( 0x80 | address);
     delay_mikro( 45 );
 }
+
+void ascii_print(char *text)
+{
+    int i = 0;
+    while (text[i] != '\0') {
+        ascii_write_char(text[i]);
+        i++;
+    }
+}
