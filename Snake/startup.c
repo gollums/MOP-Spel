@@ -331,6 +331,18 @@ static void print_score_all(void) {
     }
 }
 
+void key_event(POBJECT snake, int *game, int *restart){
+    int key_stroke = keyb();
+        switch(key_stroke){
+            case RIGHT: turn(RIGHT, snake); break; //dirx = +, diry = 0
+            case LEFT: turn(LEFT, snake); break; //dirx = -, diry = 0
+            case UP: turn(UP, snake); break; //dirx = 0, diry = -
+            case DOWN: turn(DOWN, snake); break; //dirx = 0, diry = +
+            case QUIT: *game = 0; *restart = 0; break;
+            case RESTART: *restart = 2;
+        }
+}
+
 void init_app(void){/**/
     #ifdef USBDM
         /*starta klockor på port D & E*/
@@ -385,6 +397,7 @@ int restart_game(){
     seed = 123456789;
     dead = 0;
     gameSpeed = 150;
+    start();
     return 1;
 }
 
@@ -422,8 +435,6 @@ void main(int argc, char **argv){
             new_pos_food(food, snake);
         }
         
-        start();
-        
         while(restart == 1){
             print_score_all();
             
@@ -439,19 +450,15 @@ void main(int argc, char **argv){
             
             graphic_draw_screen();
             delay_milli(gameSpeed);
-            key_stroke = keyb();
-            switch(key_stroke){
-                case RIGHT: turn(RIGHT, snake); break; //dirx = +, diry = 0
-                case LEFT: turn(LEFT, snake); break; //dirx = -, diry = 0
-                case UP: turn(UP, snake); break; //dirx = 0, diry = -
-                case DOWN: turn(DOWN, snake); break; //dirx = 0, diry = +
-                case QUIT: game = 0; restart = 0; break;
-                case RESTART: restart = 2; break;
-            }
+                       
+            key_event(snake, &game, &restart);
             
             snake_eat_food(food, snake);
             snake_hit_self(snake);
         }
+        clear_display();
     }
 }
+
+
 
